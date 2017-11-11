@@ -1,0 +1,18 @@
+<DockPanel ux:Class="StartPage">
+    <Router ux:Dependency="router" />
+    <JavaScript>
+    module.exports = {
+        goToMap: function () {
+            router.goto('map');
+        }
+    }
+    </JavaScript>
+
+    <!-- Make UI not to cover statusbar and bottom bar -->
+    <StatusBarBackground Dock="Top"/>
+    <BottomBarBackground Dock="Bottom" />
+
+    <Panel>
+        <Button Text="Open Map" Clicked="{goToMap}" />
+    </Panel>
+</DockPanel>

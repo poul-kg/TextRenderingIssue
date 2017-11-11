@@ -1,0 +1,138 @@
+<DockPanel ux:Class="MapPage">
+    <Router ux:Dependency="router" />
+    <JavaScript>
+    var Observable = require('FuseJS/Observable');
+    // overvable for log messages
+    var log = Observable('');
+    // listen for marker tapped events
+
+    var zoom = Observable(10);
+    var lat = Observable(39.7637);
+    var lon = Observable(-104.9401);
+
+    var markers = Observable(
+        {
+            id: 1,
+            lat: 39.7637,
+            lon: -104.9401,
+            name: "e049",
+            icon: "\\ue049",
+            fontColor: "FFFFFF",
+            backgroundColor: "33FFCE"
+        }
+    );
+
+    zoom.onValueChanged(module, function (newZoomValue) {
+       log.value += 'New Zoom Value: ' + newZoomValue + "\n";;
+    });
+
+    lat.onValueChanged(module, function (newLat) {
+        log.value += 'New Lat Value: ' + newLat + "\n";;
+    });
+
+    lon.onValueChanged(module, function (newLon) {
+        log.value += 'New Lon Value: ' + newLon + "\n";;
+    });
+
+    function clearLog() {
+        log.value = '';
+    }
+
+    function goBack() {
+        router.goto('start');
+    }
+
+    function onMarkerTapped(args) {
+        console.log("onMarkerTapped: ");
+        console.log(args.identifier);
+        log.value += 'onMarkerTapped:' + "\n";
+        log.value += args.identifier + "\n";
+    }
+
+    function onRegionChanged(args) {
+        console.log("onRegionChanged: ");
+        log.value += 'onRegionChanged:' + "\n";
+        log.value += 'Latitude: ' + args.latitude + "\n";
+        log.value += 'Longitude: ' + args.longitude + "\n";
+        log.value += 'Zoom: ' + args.zoom + "\n";
+    }
+
+    var i = 2;
+
+    function addNewMarker() {
+        i++;
+        var lat = 39.7637 + 0.001 * i;
+        var lng = -104.9401 + 0.001 * i;
+        var markerName = "e049" ;
+        markers.add({
+            id: i,
+            lat: lat,
+            lon: lng,
+            name: markerName,
+            fontColor: "00000d",
+            backgroundColor: "FFB233"
+        });
+    }
+
+    function removeLastMarker() {
+        if (i == 0) {
+            return;
+        }
+        i--;
+        markers.removeAt(i);
+    }
+
+    console.log('App is started');
+
+    module.exports = {
+        markers: markers,
+        log: log,
+        clearLog: clearLog,
+        goBack: goBack,
+        onMarkerTapped: onMarkerTapped,
+        onRegionChanged: onRegionChanged,
+        zoom: zoom,
+        lat: lat,
+        lon: lon,
+        addNewMarker: addNewMarker,
+        removeLastMarker: removeLastMarker
+    }
+    </JavaScript>
+
+    <!-- Make UI not to cover statusbar and bottom bar -->
+    <StatusBarBackground Dock="Top"/>
+    <BottomBarBackground Dock="Bottom" />
+
+    <!-- Create grid with 2 rows, each row takes 50% of space -->
+    <Grid RowCount="4" ColumnCount="1" Rows="auto,2*,auto,1*">
+        <Panel Row="0">
+            <Button Text="< Back" Clicked="{goBack}" Alignment="Left" Padding="10" />
+        </Panel>
+        <NativeViewHost Row="1">
+            <Neon.Mapbox.NeonMapbox Latitude="{lat}" Longitude="{lon}" Zoom="{zoom}" 
+                ShowMyLocation="true" MarkerTapped="{onMarkerTapped}" RegionChanged="{onRegionChanged}" ux:Name="myMap">
+                <Each Items="{markers}">
+                    <NeonMapboxMarker Latitude="{lat}" Longitude="{lon}" Label="{name}" Identifier="{id}" FontColor="{fontColor}" BGColor="{backgroundColor}"/>
+                </Each>
+            </Neon.Mapbox.NeonMapbox>
+            <!-- Make Red Rectangle as BG for NativeViewHost -->
+            <Rectangle Layer="Background">
+                <SolidColor Color="#ff0000" />
+                <Stroke Color="#ff0000" Width="2" />
+            </Rectangle>
+        </NativeViewHost>
+
+        <StackPanel Row="2">
+            <Button Text="Clear" Padding="10" Clicked="{clearLog}" />
+            <Button Text="Add" Padding="10" Clicked="{addNewMarker}" />
+            <Button Text="Remove" Padding="10" Clicked="{removeLastMarker}" />
+        </StackPanel>
+
+        <!-- Panel with Text Element for log output -->
+        <Panel Row="3" Padding="10">
+            <ScrollView AllowedScrollDirections="Vertical">
+                <Text Value="{log}" TextWrapping="Wrap" />
+            </ScrollView>
+        </Panel>
+    </Grid>
+</DockPanel>

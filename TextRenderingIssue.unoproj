@@ -1,0 +1,27 @@
+{
+  "RootNamespace":"",
+  "Packages": [
+    "Fuse",
+    "FuseJS",
+    "Fuse.Scripting",
+    "Fuse.Audio",
+    "Fuse.Maps",
+    "Fuse.Launcher",
+    "Fuse.GeoLocation",
+    "Uno.Permissions",
+    "Uno.Threading"
+  ],
+  "Includes": [
+    "*"
+  ],
+  "Projects": [
+    "Packages/MapBox/NeonMapBox.unoproj",
+    "fuse_modules/bolav/fuse-cocoapods/cocoapods_include.unoproj",
+    "fuse_modules/bolav/fuse-usersettings/usersettings_include.unoproj"
+  ],
+  "Excludes": [
+    "node_modules",
+    "fuse_modules/"
+  ]
+}
+

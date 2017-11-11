@@ -1,0 +1,47 @@
+{
+  "RootNamespace": "",
+  "Packages": [
+    "Fuse",
+    "FuseJS",
+    "Fuse.GeoLocation",
+    "Uno.Permissions",
+    "Fuse.ImageTools",
+    "Fuse.Scripting",
+    "Fuse.Launcher",
+  ],
+  "Includes": [
+    "*",
+    "CustomAnnotationView.h:CHeader:iOS",
+    "CustomAnnotationView.m:CSource:iOS",
+    "NeonMapView.h:CHeader:iOS",
+    "NeonMapView.m:CSource:iOS",
+    "AnnotationObject.h:CHeader:iOS",
+    "AnnotationObject.m:CSource:iOS",
+    "NeonMapView.java:Java:Android",
+    "AnnotationObject.java:Java:Android",
+    "MapboxFragment.java:Java:Android",
+    "FontManager.java:Java:Android",
+    "Assets/*.ttf:Bundle"
+  ],
+  "iOS": {
+    "DeploymentTarget": "9.0",
+    "BundleIdentifier": "com.echo.mirrormagiceffect",
+    "PreviewBundleIdentifier": "com.neon.mapboxexample.preview",
+    "PList": {
+      "NSLocationAlwaysUsageDescription": "So you can see your location on the map",
+      "NSLocationWhenInUseUsageDescription": "So you can see your location on the map",
+      "MGLMapboxAccessToken": "pk.eyJ1IjoicGF2ZWxrb3N0ZW5rbyIsImEiOiJjajVmYWYwMW8xMWc0MzNvZGt1ajZhdHlzIn0.v3z5PDM8pAbRZZnCHWka5Q"
+    }
+  },
+  "Android": {
+    "SDK": {
+      "MinVersion": "15",
+      "CompileVersion": "26",
+      "targetSdkVersion": "26",
+      "buildToolsVersion": "26.0.1"
+    },
+    "Geo": {
+      "ApiKey": "AIzaSyAOlbxG6e-qD-v-POTJW__AdXOiaQUflA8"
+    }
+  }
+}

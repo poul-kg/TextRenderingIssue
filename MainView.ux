@@ -1,0 +1,92 @@
+<App>
+    <Font File="Assets/Fonts/SF-Pro-Display-Medium.otf" ux:Global="SFProDisplayMedium" />
+    <Font File="Assets/Fonts/SF-Pro-Display-Light.otf" ux:Global="SFProDisplayLight" />
+    <Font File="Assets/Fonts/SF-Pro-Display-Regular.otf" ux:Global="SFProDisplayRegular" />
+    <Font File="Assets/Fonts/SF-Pro-Display-Semibold.otf" ux:Global="SFProDisplaySemibold" />
+    <Font File="Assets/Fonts/SF-Pro-Text-Regular.otf" ux:Global="SFProTextRegular" />
+    <Font File="Assets/Fonts/SF-Pro-Text-Medium.otf" ux:Global="SFProTextMedium" />
+    <Font File="Assets/Fonts/SF-Pro-Text-Semibold.otf" ux:Global="SFProTextSemibold" />
+    <Font File="Assets/Fonts/SF-Pro-Text-Bold.otf" ux:Global="SFProTextBold" />
+    <Font File="Assets/Fonts/SF-Pro-Text-Light.otf" ux:Global="SFProTextLight" />   
+    <Font File="Assets/Fonts/F37Jan-Regular.otf" ux:Global="F37JanRegular" />
+    <Font File="Assets/Fonts/F37Jan-Bold.otf" ux:Global="F37JanBold" />
+    <Font File="Assets/Fonts/fontawesome-webfont.ttf" ux:Global="FontAwesome" />
+    <Font File="Assets/Fonts/neon-icon-font.ttf" ux:Global="NeonIcon" />
+    <Font File="Assets/Fonts/lifeai.ttf" ux:Global="LifeAiIcon" />
+    <JavaScript>
+    var Observable = require('FuseJS/Observable');
+    var zoom = Observable(10);
+    var lat = Observable(39.742043);
+    var lon = Observable(-104.991531);
+    var markers = Observable();
+    function onMarkerTapped() {
+        console.log('Marker tapped');
+    }
+
+    function onRegionChanged() {
+        console.log('Region changed');
+    }
+
+    var userInput = Observable('');
+
+    function cancelRecording() {
+        console.log('cancel recording');
+    }
+
+    module.export = {
+        lat: lat,
+        lon: lon,
+        zoom: zoom,
+        markers: markers,
+        onMarkerTapped: onMarkerTapped,
+        onRegionChanged: onRegionChanged,
+        userInput: userInput,
+        cancelRecording: cancelRecording
+    }
+    </JavaScript>
+    <NativeViewHost>
+        <!-- MapBox -->
+        <Neon.Mapbox.NeonMapbox ux:Name="myMap" Latitude="{lat}" Longitude="{lon}" Zoom="{zoom}" ShowMyLocation="true" MarkerTapped="{onMarkerTapped}" RegionChanged="{onRegionChanged}">
+            <Each Items="{markers}">
+                <NeonMapboxMarker Latitude="{lat}" Longitude="{lon}" Label="{name}" Identifier="{id}" FontColor="{fontColor}" BGColor="{backgroundColor}" />
+            </Each>
+        </Neon.Mapbox.NeonMapbox>
+
+        <Panel ux:Name="speechOverlay" ZOffset="100" Visibility="Hidden">
+            <Rectangle Layer="Background" Color="#052845b2" />
+            <DockPanel>
+                <StackPanel>
+                    <Text Color="#fff" FontSize="30" Alignment="HorizontalCenter" Margin="10,60,10,30" Font="SFProTextMedium">Recording...
+                    </Text>
+                    
+                </StackPanel>
+                <Panel Dock="Bottom" Clicked="{cancelRecording}">
+                    <Rectangle Layer="Background" Color="#052845" />
+                    <Pressed>
+                        <Scale Factor=".95" Duration=".08" Easing="QuadraticOut"  />
+                    </Pressed>
+                </Panel>
+            </DockPanel>
+        </Panel>
+
+        <Panel ZOffset="5" Width="100%" Margin="0,44,0,0" Height="100%" ux:Name="cardsPanel" Alignment="Bottom" Y="0" Padding="10">
+            <Rectangle Layer="Background" Color="#fff" HitTestMode="None" />
+            <GraphicsView>
+                <StackPanel>
+                    <Text Value="Default text" />
+                    <Text Value="SFProDisplayMedium" Font="SFProDisplayMedium" />
+                    <Text Value="SFProDisplayLight" Font="SFProDisplayLight" />
+                    <Text Value="SFProDisplayRegular" Font="SFProDisplayRegular" />
+                    <Text Value="SFProDisplaySemibold" Font="SFProDisplaySemibold" />
+                    <Text Value="SFProTextRegular" Font="SFProTextRegular" />
+                    <Text Value="SFProTextMedium" Font="SFProTextMedium" />
+                    <Text Value="SFProTextSemibold" Font="SFProTextSemibold" />
+                    <Text Value="SFProTextBold" Font="SFProTextBold" />
+                    <Text Value="SFProTextLight" Font="SFProTextLight" />
+                    <Text Value="F37JanRegular" Font="F37JanRegular" />
+                    <Text Value="F37JanBold" Font="F37JanBold" />
+                </StackPanel>
+            </GraphicsView>
+        </Panel>
+    </NativeViewHost>
+</App>
